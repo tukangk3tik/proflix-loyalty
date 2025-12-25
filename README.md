@@ -1,9 +1,7 @@
 # Proflix Loyalty System --- High-Scale Loyalty Platform
 
-**High-scale, event-driven loyalty system built to handle millions of
-requests per second.**Designed with production-grade patterns: ledger-based accounting,
-read/write separation, idempotent event processing, and reporting
-isolation.
+**High-scale, event-driven loyalty system built to handle millions of requests per second.**
+Designed with production-grade patterns: ledger-based accounting, read/write separation, idempotent event processing, and reporting isolation.
 
 > Designed for system-level scalability, not framework benchmarks.
 
@@ -11,10 +9,12 @@ isolation.
 
 ## Why This Project Exists
 
-Most loyalty systems fail at scale due to: - Hot counters and balance
-contention - Inconsistent point calculations from retries - Reporting
-queries impacting production traffic - Databases used for both OLTP and
-analytics - Poor horizontal scalability
+Most loyalty systems fail at scale due to:
+- Hot counters and balance contention
+- Inconsistent point calculations from retries
+- Reporting queries impacting production traffic
+- Databases used for both OLTP and analytics
+- Poor horizontal scalability
 
 **Proflix Loyalty** demonstrates how to design a loyalty platform that
 remains **correct, scalable, and operable under heavy load**.
@@ -54,16 +54,25 @@ remains **correct, scalable, and operable under heavy load**.
 
 ## Technology Stack
 
-**API & Orchestration** - NestJS (Fastify) - JWT Authentication - Rate
-limiting
+**API & Orchestration** 
+- NestJS (Fastify)
+- JWT Authentication
+- Rate limiting
 
-**Core Services** - Go (net/http or Gin) - Ledger service - Projection
-workers
+**Core Services**
+- Go (net/http or Gin)
+- Ledger service
+- Projection workers
 
-**Data** - PostgreSQL --- transactional ledger - Redis --- read
-projections & caching - ClickHouse --- analytics & reporting
+**Data**
+- PostgreSQL --- transactional ledger
+- Redis --- read, projections & caching
+- ClickHouse --- analytics & reporting
 
-**Infrastructure** - Docker - Kubernetes - GitLab CI/CD
+**Infrastructure**
+- Docker
+- Kubernetes
+- Github CI/CD
 
 ---
 
