@@ -1,4 +1,5 @@
 version: "3.9"
+name: profilx-loyalty-system
 
 services:
   main-pg-db: 
