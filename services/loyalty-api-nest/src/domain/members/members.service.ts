@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { Repository } from 'typeorm';
@@ -26,15 +26,19 @@ export class MembersService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
+  async findOne(id: string) {
+    const member = await this.memberRepository.findOneBy({ id });
+    if (!member) {
+      throw new NotFoundException(`Member not found`);
+    }
+    return member;
   }
 
-  update(id: number, updateMemberDto: UpdateMemberDto) {
+  update(id: string, updateMemberDto: UpdateMemberDto) {
     return `This action updates a #${id} member`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} member`;
   }
 }

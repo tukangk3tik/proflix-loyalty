@@ -12,6 +12,7 @@ import { MembersService } from './members.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { PaginationDto } from '../../common/dto/pagination.dto';
+import { IdDto } from '../../common/dto/uuid.dto';
 
 @Controller('members')
 export class MembersController {
@@ -24,22 +25,21 @@ export class MembersController {
 
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
-    console.log('Pagination DTO:', paginationDto);
     return this.membersService.findAll(paginationDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.membersService.findOne(+id);
+  findOne(@Param() { id }: IdDto) {
+    return this.membersService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMemberDto: UpdateMemberDto) {
-    return this.membersService.update(+id, updateMemberDto);
+  update(@Param() { id }: IdDto, @Body() updateMemberDto: UpdateMemberDto) {
+    return this.membersService.update(id, updateMemberDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.membersService.remove(+id);
+    return this.membersService.remove(id);
   }
 }
