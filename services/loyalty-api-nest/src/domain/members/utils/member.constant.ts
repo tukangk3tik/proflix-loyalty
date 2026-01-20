@@ -1,0 +1,1 @@
+export const SYSTEM_DEFAULT_REFERRAL = 'XTMKQTR8NY';

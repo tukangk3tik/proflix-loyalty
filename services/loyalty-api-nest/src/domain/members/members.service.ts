@@ -15,7 +15,8 @@ export class MembersService {
   ) {}
 
   create(createMemberDto: CreateMemberDto) {
-    return 'This action adds a new member';
+    const member = this.memberRepository.create(createMemberDto);
+    return this.memberRepository.save(member);
   }
 
   findAll(paginationDto: PaginationDto) {
