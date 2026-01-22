@@ -5,6 +5,7 @@ import { ENV_VALIDATION_SCHEMA } from './env.constants';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       validationSchema: ENV_VALIDATION_SCHEMA,
     }),
   ],
