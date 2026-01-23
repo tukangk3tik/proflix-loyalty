@@ -8,6 +8,7 @@ import { Reflector } from '@nestjs/core';
 import { AuthType } from '../enum/auth-type.enum';
 import { AUTH_TYPE_KEY } from '../decorators/auth-type.decorator';
 import { JwtPayload } from '../interfaces/jwt-payload.interface';
+import { FastifyRequest } from 'fastify';
 
 @Injectable()
 export class AuthTypeGuard implements CanActivate {
@@ -23,8 +24,8 @@ export class AuthTypeGuard implements CanActivate {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest();
-    const user: JwtPayload = request.user;
+    const request = context.switchToHttp().getRequest<FastifyRequest>();
+    const user = request.user as JwtPayload;
 
     if (!user || !user.type) {
       throw new ForbiddenException('Access denied');
