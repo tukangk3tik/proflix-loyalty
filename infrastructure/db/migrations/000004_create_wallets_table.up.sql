@@ -1,15 +1,15 @@
 CREATE TABLE IF NOT EXISTS wallets(
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   member_id UUID NOT NULL,
-  wallet_type SMALLINT NOT NULL DEFAULT 1,
-  balance INTEGER DEFAULT 0 NOT NULL CHECK (balance >= 0),
+  available_balance BIGINT DEFAULT 0,
+  pending_balance BIGINT DEFAULT 0,
+  expired_balance BIGINT DEFAULT 0,
+  last_transaction_id BIGINT,
+  last_event_id UUID,
+  status SMALLINT NOT NULL DEFAULT 1,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  is_deleted BOOLEAN DEFAULT FALSE,
-  deleted_at TIMESTAMP WITH TIME ZONE 
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
-
-COMMENT ON COLUMN wallets.wallet_type IS 'Wallet type: 1=MAIN, 2=EVENT1, 3=EVENT2';
 
 ALTER TABLE wallets
 ADD CONSTRAINT fk_member_id FOREIGN KEY (member_id)

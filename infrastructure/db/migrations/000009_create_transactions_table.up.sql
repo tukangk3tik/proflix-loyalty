@@ -1,17 +1,20 @@
 CREATE TABLE IF NOT EXISTS transactions(
-	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	id BIGINT PRIMARY KEY,
 	event_id UUID NOT NULL,
 	member_id UUID NOT NULL,
 	wallet_id UUID NOT NULL,
 	campaign_id UUID,
-	delta INTEGER NOT NULL,
+	delta BIGINT NOT NULL,
+	balance_after BIGINT NOT NULL,
 	transaction_type SMALLINT NOT NULL,
 	reason_code SMALLINT NOT NULL,
 	reference_id VARCHAR(100),
+	reversed_transaction_id BIGINT,
 	status SMALLINT NOT NULL DEFAULT 0,
 	source SMALLINT NOT NULL,
+	confirmed_at TIMESTAMP WITH TIME ZONE,
 	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-	UNIQUE (event_id, transaction_type)
+	UNIQUE (event_id, wallet_id)
 );
 
 COMMENT ON COLUMN transactions.event_id IS 'generated random / uuid when first time new transaction come. Represent one logical business event';
@@ -34,3 +37,8 @@ ALTER TABLE transactions
 ADD CONSTRAINT fk_transactions_campaign_id FOREIGN KEY (campaign_id)
 	REFERENCES campaigns (id)
 	ON UPDATE NO ACTION;
+
+CREATE INDEX idx_tx_wallet_id_id ON transactions(wallet_id, id);
+CREATE INDEX idx_tx_member_id_id ON transactions(member_id, id);
+CREATE INDEX idx_tx_event_id ON transactions(event_id);
+CREATE INDEX idx_tx_created_at ON transactions(created_at);
