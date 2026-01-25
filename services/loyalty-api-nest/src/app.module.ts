@@ -6,9 +6,17 @@ import { MembersModule } from './domain/members/members.module';
 import { DatabaseModule } from './database/database.module';
 import { EnvModule } from './env/env.module';
 import { AuthModule } from './auth/auth.module';
+import { WalletsModule } from './domain/wallets/wallets.module';
 
 @Module({
-  imports: [CommonModule, MembersModule, DatabaseModule, EnvModule, AuthModule],
+  imports: [
+    CommonModule,
+    MembersModule,
+    DatabaseModule,
+    EnvModule,
+    AuthModule,
+    WalletsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

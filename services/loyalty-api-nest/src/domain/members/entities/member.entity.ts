@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { MemberStatus } from '../enum/member-status.enum';
 import { RegistryDates } from '../../../common/embedded/registry-dates.embedded';
 import { SoftDelete } from '../../../common/embedded/soft-delete.embedded';
@@ -7,7 +7,7 @@ import { MemberTier } from '../enum/member-tier.enum';
 
 @Entity('members')
 export class Member {
-  @PrimaryColumn({ type: 'uuid' })
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 20, unique: true })

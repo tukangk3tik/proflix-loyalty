@@ -6,17 +6,21 @@ import { Member } from './entities/member.entity';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { DEFAULT_PAGE_SIZE } from '../../common/utils/common.constants';
 import { InjectRepository } from '@nestjs/typeorm';
+import { WalletsService } from '../wallets/wallets.service';
 
 @Injectable()
 export class MembersService {
   constructor(
     @InjectRepository(Member)
     private readonly memberRepository: Repository<Member>,
+    private readonly walletsService: WalletsService,
   ) {}
 
-  create(createMemberDto: CreateMemberDto) {
+  async create(createMemberDto: CreateMemberDto) {
     const member = this.memberRepository.create(createMemberDto);
-    return this.memberRepository.save(member);
+    await this.memberRepository.save(member);
+    await this.walletsService.createWallet(member.id);
+    return member;
   }
 
   findAll(paginationDto: PaginationDto) {

@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Member } from './entities/member.entity';
 import { MembersSubscriber } from './subscribers/members.subscriber';
 import { AuthModule } from '../../auth';
+import { WalletsModule } from '../wallets/wallets.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Member]), AuthModule],
+  imports: [TypeOrmModule.forFeature([Member]), AuthModule, WalletsModule],
   controllers: [MembersController],
   providers: [MembersService, MembersSubscriber],
 })

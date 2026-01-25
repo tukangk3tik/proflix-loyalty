@@ -27,7 +27,9 @@ export class MembersSubscriber implements EntitySubscriberInterface<Member> {
     const { entity } = event;
 
     entity.membership_number = `M-${Date.now()}`;
-    entity.status = MemberStatus.PENDING;
+
+    // TODO: Send verification email here and set status to PENDING
+    entity.status = MemberStatus.ACTIVE;
     entity.tier = MemberTier.BRONZE;
     entity.join_date = new Date();
 
