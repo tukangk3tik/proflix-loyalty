@@ -57,8 +57,8 @@ export class AuthService {
       );
     }
 
-    if (member.status === MemberStatus.CANCELED) {
-      throw new BadRequestException('Account has been cancelled.');
+    if (member.status === MemberStatus.REMOVED) {
+      throw new BadRequestException('Account has been removed.');
     }
 
     // Verify password (using simple hash for demo - use bcrypt in production)

@@ -3,6 +3,7 @@ import {
   EntitySubscriberInterface,
   EventSubscriber,
   InsertEvent,
+  UpdateEvent,
 } from 'typeorm';
 import { Member } from '../entities/member.entity';
 import { SYSTEM_DEFAULT_REFERRAL } from '../utils/member.constant';
@@ -40,6 +41,22 @@ export class MembersSubscriber implements EntitySubscriberInterface<Member> {
 
     if (!entity.referral_code) {
       entity.referral_code = SYSTEM_DEFAULT_REFERRAL;
+    }
+  }
+
+  async beforeUpdate(event: UpdateEvent<Member>) {
+    const { entity } = event;
+    const member = entity as Member;
+
+    if (member.password) {
+      const hashPassword = await this.hashingService.hash(member.password);
+      const comparePassword = await this.hashingService.compare(
+        member.password,
+        hashPassword,
+      );
+      if (!comparePassword) {
+        member.password = hashPassword;
+      }
     }
   }
 

@@ -13,8 +13,9 @@ import { MembersService } from './members.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { PaginationDto } from '../../common/dto/pagination.dto';
-import { IdDto } from '../../common/dto/uuid.dto';
-import { Public } from '../../auth/decorators/public.decorator';
+import { IdDto } from '../../common';
+import { CurrentUser, MemberOnly, Public } from '../../auth';
+import type { JwtPayload } from '../../auth';
 
 @ApiTags('Members')
 @Controller('members')
@@ -42,17 +43,25 @@ export class MembersController {
     return this.membersService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch()
+  @MemberOnly()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a member' })
-  update(@Param() { id }: IdDto, @Body() updateMemberDto: UpdateMemberDto) {
-    return this.membersService.update(id, updateMemberDto);
+  update(
+    @CurrentUser() user: JwtPayload,
+    @Body() updateMemberDto: UpdateMemberDto,
+  ) {
+    return this.membersService.update(user.sub, updateMemberDto);
   }
 
-  @Delete(':id')
+  @Delete()
+  @MemberOnly()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete a member' })
-  remove(@Param('id') id: string) {
-    return this.membersService.remove(id);
+  remove(
+    @CurrentUser() user: JwtPayload,
+    @Body('reason') removalReason?: string,
+  ) {
+    return this.membersService.remove(user.sub, removalReason);
   }
 }

@@ -2,5 +2,6 @@ export enum MemberStatus {
   PENDING = 0,
   ACTIVE = 1,
   INACTIVE = 2,
-  CANCELED = 3,
+  PENDING_REMOVAL = 3,
+  REMOVED = 4,
 }

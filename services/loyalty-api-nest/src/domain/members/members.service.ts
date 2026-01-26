@@ -6,7 +6,9 @@ import { Member } from './entities/member.entity';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { DEFAULT_PAGE_SIZE } from '../../common/utils/common.constants';
 import { InjectRepository } from '@nestjs/typeorm';
-import { WalletsService } from '../wallets/wallets.service';
+import { WalletsService } from '../wallets';
+import { MemberRemovalRequestSource } from './enum/member-removal-request-source.enum';
+import { MemberStatus } from './enum';
 
 @Injectable()
 export class MembersService {
@@ -39,11 +41,31 @@ export class MembersService {
     return member;
   }
 
-  update(id: string, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
+  async update(id: string, updateMemberDto: UpdateMemberDto) {
+    const member = await this.memberRepository.preload({
+      id,
+      ...updateMemberDto,
+    });
+    if (!member) {
+      throw new NotFoundException(`Member not found`);
+    }
+    return this.memberRepository.save(member);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} member`;
+  async remove(id: string, removalReason?: string) {
+    const member = await this.findOne(id);
+
+    await this.memberRepository.update(id, {
+      removal_requested_at: new Date(),
+      removal_requested_source: MemberRemovalRequestSource.MEMBER,
+      removal_reason: removalReason?.toString(),
+      status: MemberStatus.PENDING_REMOVAL,
+    });
+
+    return {
+      message: 'Your removal account request is in process',
+      memberId: member.id,
+      requestedAt: new Date(),
+    };
   }
 }

@@ -13,7 +13,7 @@ export class Member {
   @Column({ type: 'varchar', length: 20, unique: true })
   membership_number: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'timestamp' })
   join_date: Date;
 
   @Column({ type: 'varchar', length: 20, nullable: true })
@@ -40,6 +40,21 @@ export class Member {
     default: MemberStatus.PENDING,
   })
   status: MemberStatus;
+
+  @Column({ type: 'timestamp', nullable: true })
+  removal_requested_at: Date;
+
+  @Column({ type: 'smallint', nullable: true })
+  removal_requested_source: number;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  removal_reason: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  removal_approved_at: Date;
+
+  @Column({ type: 'uuid', nullable: true })
+  removal_approved_by: string;
 
   @Column(() => RegistryDates, { prefix: false })
   registryDates: RegistryDates;
