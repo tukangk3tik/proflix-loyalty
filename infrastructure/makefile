@@ -13,3 +13,6 @@ migrate-down-1:
 
 migrate-status:
 	migrate -path db/migrations -database "$(DB_URL)" -verbose version
+
+migrate-seed:
+	migrate -path db/seed -database "$(DB_URL)" -verbose up 1
