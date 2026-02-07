@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS user_roles(
 -- Insert User Roles 
 INSERT INTO user_roles (role_code, role_name, description) VALUES
 ('OWNER', 'Super Admin', 'Has full access to all system features and settings'),
-('ADMIN', 'Admin', 'Manages regional administrative tasks'),
+('ADMIN', 'Admin', 'Manages administrative tasks'),
 ('OPS', 'IT Ops', 'Handles IT operations and infrastructure management'),
 ('FINANCE', 'Finance', 'Responsible for financial management and budgeting');
